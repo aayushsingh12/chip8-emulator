@@ -1,7 +1,9 @@
 # A CHIP-8 interpreter emulator written in C++, using SDL2 for graphics and input 
 
-Pong:![alt text](docs\pong.png)
-Tetris:![alt text](docs\tetris.png)
+### Pong:
+![alt text](docs/pong.png)
+### Tetris:
+![alt text](docs/tetris.png)
 
 ## Controls
 
