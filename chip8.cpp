@@ -293,7 +293,7 @@ void Chip8::OP_EX9E(){
     uint8_t Vx= (opcode & 0x0F00u) >> 8;
     uint8_t key= registers[Vx];
     
-    if(keypad[key])
+    if(keypad[key]!=0)
         pc+=2;
 }
 
