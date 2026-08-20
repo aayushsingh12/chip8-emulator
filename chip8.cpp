@@ -387,3 +387,77 @@ void Chip8::OP_FX65(){
     for(unsigned int i=0; i<=Vx; i++)
         registers[i]= memory[index+i];
 }
+
+void Chip8::Cycle(){
+    //Fetch, decode, execute
+    opcode = (memory[pc] << 8) | memory[pc+1];
+    pc+=2;  //Increment pc to next instruction
+
+    
+    switch (opcode & 0xF000u) {
+        case 0x0000:
+            switch (opcode & 0x00FFu) {
+                case 0x00E0: OP_00E0(); break;
+                case 0x00EE: OP_00EE(); break;
+            }
+            break;
+
+        case 0x1000: OP_1NNN(); break;
+        case 0x2000: OP_2NNN(); break;
+        case 0x3000: OP_3XKK(); break;
+        case 0x4000: OP_4XKK(); break;
+        case 0x5000: OP_5XY0(); break;
+        case 0x6000: OP_6XKK(); break;
+        case 0x7000: OP_7XKK(); break;
+
+        case 0x8000:
+            switch (opcode & 0x000Fu) {
+                case 0x0000: OP_8XY0(); break;
+                case 0x0001: OP_8XY1(); break;
+                case 0x0002: OP_8XY2(); break;
+                case 0x0003: OP_8XY3(); break;
+                case 0x0004: OP_8XY4(); break;
+                case 0x0005: OP_8XY5(); break;
+                case 0x0006: OP_8XY6(); break;
+                case 0x0007: OP_8XY7(); break;
+                case 0x000E: OP_8XYE(); break;
+            }
+            break;
+
+        case 0x9000: OP_9XY0(); break;
+        case 0xA000: OP_ANNN(); break;
+        case 0xB000: OP_BNNN(); break;
+        case 0xC000: OP_CXKK(); break;
+        case 0xD000: OP_DXYN(); break;
+
+        case 0xE000:
+            switch (opcode & 0x00FFu) {
+                case 0x009E: OP_EX9E(); break;
+                case 0x00A1: OP_EXA1(); break;
+            }
+            break;
+
+        case 0xF000:
+            switch (opcode & 0x00FFu) {
+                case 0x0007: OP_FX07(); break;
+                case 0x000A: OP_FX0A(); break;
+                case 0x0015: OP_FX15(); break;
+                case 0x0018: OP_FX18(); break;
+                case 0x001E: OP_FX1E(); break;
+                case 0x0029: OP_FX29(); break;
+                case 0x0033: OP_FX33(); break;
+                case 0x0055: OP_FX55(); break;
+                case 0x0065: OP_FX65(); break;
+            }
+            break;
+    }
+
+    //Decrememnt delay timer if set
+    if(delay>0)
+        --delay;
+    
+    //Decrement sound timer if set
+    if(sound>0)
+        --sound;
+}
+

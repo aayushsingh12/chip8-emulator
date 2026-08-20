@@ -17,6 +17,7 @@ public:
 
     Chip8();
     void loadRom(char const * filename);
+    void Cycle();
 
     void OP_00E0(); //Clears screen
     void OP_00EE(); //Return from subroutine
